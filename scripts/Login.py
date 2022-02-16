@@ -1,6 +1,6 @@
 from tkinter import Button, Checkbutton, Entry, IntVar, Label, StringVar, Tk, Toplevel, messagebox 
 from Register import Register
-import MySQLdb
+import mysql.connector
 
 class Login:
     def __init__(self):
@@ -35,10 +35,14 @@ class Login:
             root.lift()
             return
         try:
-            con = MySQLdb.connect(host='localhost', user="user",
-                                  password="password", database="")
+            con = mysql.connector.connect(
+                host="localhost", 
+                user="root",
+                password="Pinaki15@",
+                database="register"
+                )
             cursor = con.cursor()
-            command = 'SELECT emailid,password FROM registration'
+            command = 'SELECT username,password FROM users'
             cursor.execute(command)
             registered_email = cursor.fetchall()
             for each in registered_email:

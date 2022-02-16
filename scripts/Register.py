@@ -1,7 +1,6 @@
 import tkinter as tk
 from tkinter import Tk, Label, messagebox, StringVar, IntVar, Entry, Button, Toplevel, Checkbutton
-from password_strength import PasswordPolicy
-import MySQLdb
+import mysql.connector
 
 class BLabel(object):
     b = "•"
@@ -18,12 +17,14 @@ class BLabel(object):
 
 class Register:
     def __init__(self):
-        top = Tk()
+        top = Toplevel()
         top.title("Registaration")
         top.geometry("500x450+400+25")
         self.email = StringVar()
         self.passwor = StringVar()
         self.checkButton = IntVar()
+        self.check_value = 0
+        self.pass_entry = None
 
         self.buttons(top)
         top.mainloop()
@@ -31,9 +32,9 @@ class Register:
     def checkbox(self, root):
         self.check_value = self.checkButton.get()
         if self.check_value == 0:
-            self.entry_6.configure(show="*")
+            self.pass_entry.configure(show="*")
         else:
-            self.entry_6.configure(show="")
+            self.pass_entry.configure(show="")
     
     def callback(self,top):
         from Login import Login
@@ -60,25 +61,83 @@ class Register:
         try:
             # Password checker goes here
             x = 0
-            policy = PasswordPolicy.from_names(
-                length=8,  # min length: 8
-                uppercase=1,  # need min. 2 uppercase letters
-                numbers=1,  # need min. 2 digits
-                special=1,  # need min. 2 special characters
-                nonletters=1,  # need min. 2 non-letter characters (digits, specials, anything)
-            )
-            policy.test(passw)
-            if policy.test(passw) == []:
-                top.lift()
             # Database goes here
-            # cursor.execute("INSERT INTO registration VALUES(%s,%s)",
-            #                        (emailid, passw))
-            # con.commit()
-            # messagebox.showinfo(master=top,title="Registration successful",
-            #                     message="You have been registered successfully!")
-            # top.destroy()
-            # from Login import Login
-            # Login()
+            mydb = mysql.connector.connect(
+                host="localhost", 
+                user="root",
+                password="Pinaki15@",
+                database="register"
+                )
+            mycursor = mydb.cursor()
+            sql_query = 'SELECT username FROM users'
+            mycursor.execute(sql_query)
+            used_email = mycursor.fetchall()
+            for i in used_email:
+                if emailid == i[0]:
+                    check = False
+            if check:
+                error_list = []
+                characters = '@#$'
+                count = 0
+                print()
+
+                flag = 0
+                flag1 = 0
+                char_count = 0
+                low_count = 0
+                up_count = 0
+                dig_count = 0
+                n = len(passw)
+                if n < 8:
+                    flag1 = 1
+                    messagebox.showerror(master=top,title="Error",message= "The password must be atleast 8 letters!")
+                if n > 15:
+                    flag1 = 1
+                    messagebox.showerror(master=top,title="Error",message= "The password must be atmost 15 letters!")
+                for x in passw:
+                    if x.islower():
+                        low_count = low_count + 1
+                    elif x.isupper():
+                        up_count = up_count + 1
+                    elif x.isdigit():
+                        dig_count = dig_count + 1
+                    else:
+                        for i in characters:
+                            if i == x:
+                                char_count = char_count + 1
+                if dig_count < 1 :
+                    messagebox.showerror(master=top,title="Error",message= "At least 1 number between [0-9]")
+                    top.lift()
+                    return
+                if char_count < 1:
+                    messagebox.showerror(master=top,title="Error",message= "At least 1 character from [$#@]")
+                    top.lift()
+                    return
+                if low_count < 1:
+                    messagebox.showerror(master=top,title="Error",message= "Atleast 1 lowercase letter is mandatory")
+                    top.lift()
+                    return
+                if up_count < 1:
+                    messagebox.showerror(master=top,title="Error",message= "Atleast 1 uppercase letter is mandatory")
+                    
+                if low_count < 1 or up_count < 1 or dig_count < 1 or char_count < 1:
+                    flag1 = 1
+                    for i in error_list:
+                        print(i, end="\n")
+                    print("Registration Unsuccessful")
+
+                if flag1 == 0:
+                    sql = 'INSERT INTO users (username, password) VALUES (%s, %s)'
+                    val = (emailid, passw)
+                    mycursor.execute(sql, val)
+                    mydb.commit()
+                    messagebox.showinfo(master=top,title="Registration successful",
+                                        message="You have been registered successfully!")
+                    top.destroy()
+            else:
+                messagebox.showwarning(master=top,title="Oops",message= "Email id already registered!")
+                top.destroy()
+                Register()
 
         except Exception as e:
             print(e)
