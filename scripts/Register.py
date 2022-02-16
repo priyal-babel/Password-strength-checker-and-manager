@@ -1,7 +1,7 @@
 import tkinter as tk
 from tkinter import Tk, Label, messagebox, StringVar, IntVar, Entry, Button, Toplevel, Checkbutton
 import mysql.connector
-
+from config import password
 class BLabel(object):
     b = "•"
 
@@ -61,14 +61,14 @@ class Register:
         try:
             # Password checker goes here
             x = 0
-            # Database goes here
-            mydb = mysql.connector.connect(
+            import mysql.connector
+            con = mysql.connector.connect(
                 host="localhost", 
                 user="root",
-                password="Pinaki15@",
+                password=password,
                 database="register"
-                )
-            mycursor = mydb.cursor()
+            )
+            mycursor = con.cursor()
             sql_query = 'SELECT username FROM users'
             mycursor.execute(sql_query)
             used_email = mycursor.fetchall()
@@ -130,7 +130,7 @@ class Register:
                     sql = 'INSERT INTO users (username, password) VALUES (%s, %s)'
                     val = (emailid, passw)
                     mycursor.execute(sql, val)
-                    mydb.commit()
+                    con.commit()
                     messagebox.showinfo(master=top,title="Registration successful",
                                         message="You have been registered successfully!")
                     top.destroy()
