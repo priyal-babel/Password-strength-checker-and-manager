@@ -1,5 +1,7 @@
 import tkinter as tk
 from tkinter import Tk, Label, messagebox, StringVar, IntVar, Entry, Button, Toplevel, Checkbutton
+from password_strength import PasswordPolicy
+import MySQLdb
 
 class BLabel(object):
     b = "•"
@@ -58,7 +60,25 @@ class Register:
         try:
             # Password checker goes here
             x = 0
+            policy = PasswordPolicy.from_names(
+                length=8,  # min length: 8
+                uppercase=2,  # need min. 2 uppercase letters
+                numbers=2,  # need min. 2 digits
+                special=2,  # need min. 2 special characters
+                nonletters=2,  # need min. 2 non-letter characters (digits, specials, anything)
+            )
+            policy.test(passw)
+            if policy.test(passw) == []:
+                top.lift()
             # Database goes here
+            # cursor.execute("INSERT INTO registration VALUES(%s,%s)",
+            #                        (emailid, passw))
+            # con.commit()
+            # messagebox.showinfo(master=top,title="Registration successful",
+            #                     message="You have been registered successfully!")
+            # top.destroy()
+            # from Login import Login
+            # Login()
 
         except Exception as e:
             print(e)
