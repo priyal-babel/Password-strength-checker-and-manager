@@ -38,7 +38,7 @@
 [![](https://img.shields.io/badge/Made_with-python-yellow?style=for-the-badge&logo=python)](https://www.python.org/ "Python") 
  ## About The Project
 
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
+![Login and Registration](Password-strength-checker-and-manager\screenshot_of_screen.PNG)
 
 This is a password strength checker and manager application. The features implemented are listed below
 
