@@ -2,6 +2,13 @@ from tkinter import Button, Checkbutton, Entry, IntVar, Label, StringVar, Tk, To
 from Register import Register
 import mysql.connector
 from config import password
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(
+        schemes=["pbkdf2_sha256"],
+        default="pbkdf2_sha256",
+        pbkdf2_sha256__default_rounds=30000
+)
 
 class Login:
     def __init__(self):
@@ -48,7 +55,7 @@ class Login:
             registered_email = cursor.fetchall()
             for each in registered_email:
                 if each[0]==self.email.get():
-                    if each[1]==self.passwor.get():
+                    if pwd_context.verify(self.passwor.get(), each[1]):
                         messagebox.showinfo(master=root,title="Welcome",message="You have been logged in!")
                         root.destroy()
                         # PastBookings(self.email.get())

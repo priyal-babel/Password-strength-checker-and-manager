@@ -1,8 +1,15 @@
 import tkinter as tk
 from tkinter import Tk, Label, messagebox, StringVar, IntVar, Entry, Button, Toplevel, Checkbutton
-import mysql.connector
 from config import password
 from password_strength import PasswordPolicy
+from passlib.context import CryptContext
+
+pwd_context = CryptContext(
+        schemes=["pbkdf2_sha256"],
+        default="pbkdf2_sha256",
+        pbkdf2_sha256__default_rounds=30000
+)
+
 class BLabel(object):
     b = "•"
 
@@ -50,6 +57,8 @@ class Register:
         check = True
         emailid = self.email.get()
         passw = self.passwor.get()
+        passw = pwd_context.encrypt(passw)
+        print(type(passw))
         if self.isFormEmpty() == True:
             messagebox.showerror(master=top,title="Form Empty",message= "Please enter all details!")
             top.lift()
@@ -75,7 +84,7 @@ class Register:
                 messagebox.showinfo(master=top,title="Error",message= "Password should have atleast these conditions (" + str(policy.test(passw)) + ")")
                 top.destroy()
                 return
-            x = 0
+
             import mysql.connector
             con = mysql.connector.connect(
                 host="localhost", 
@@ -91,27 +100,15 @@ class Register:
                 if emailid == i[0]:
                     check = False
             if check:
-                error_list = []
-                characters = '@#$'
-                count = 0
-                print()
 
-                flag = 0
-                flag1 = 0
-                char_count = 0
-                low_count = 0
-                up_count = 0
-                dig_count = 0
-                n = len(passw)
-
-                if flag1 == 0:
-                    sql = 'INSERT INTO users (username, password) VALUES (%s, %s)'
-                    val = (emailid, passw)
-                    mycursor.execute(sql, val)
-                    con.commit()
-                    messagebox.showinfo(master=top,title="Registration successful",
-                                        message="You have been registered successfully!")
-                    top.destroy()
+                sql = 'INSERT INTO users (username, password) VALUES (%s, %s)'
+                passw = pwd_context.encrypt(passw)
+                val = (emailid, passw)
+                mycursor.execute(sql, val)
+                con.commit()
+                messagebox.showinfo(master=top,title="Registration successful",
+                                    message="You have been registered successfully!")
+                top.destroy()
             else:
                 messagebox.showwarning(master=top,title="Oops",message= "Email id already registered!")
                 top.destroy()
