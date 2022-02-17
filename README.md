@@ -41,6 +41,7 @@
 This is a password strength checker and manager application. The features implemented are listed below
 
 * Users can register using an email address. If the email is already used and stored in the database, it will trigger an error indicating that. While entering the password, user must abide by the given conditions inorder for the registration to be accepted, if not then the window will trigger an error.
+* This password stored in the database is encrypted using passlib package
 * The user can the login using the same credential, any incorrect entries will trigger a warning
 
 ## To run this project :
@@ -53,7 +54,7 @@ Clone the project -
 Run the create_database.sql file in the database folder 
 Install all the requirements -
 ```
- $ pip install tkinter mysql
+ $ pip install tkinter mysql passlib
 ```
 Run the Script -
 ```
