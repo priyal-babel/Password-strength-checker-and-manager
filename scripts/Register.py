@@ -70,17 +70,29 @@ class Register:
             # Password checker goes here
             policy = PasswordPolicy.from_names(
                 length=8,  # min length: 8
-                uppercase=1,  # need min. 2 uppercase letters
-                numbers=1,  # need min. 2 digits
-                special=1,  # need min. 2 special characters
+                uppercase=1,  # need min. 1 uppercase letters
+                numbers=1,  # need min. 1 digits
+                special=1,  # need min. 1 special characters
                 nonletters=1,  # need min. 2 non-letter characters (digits, specials, anything)
             )
             policy.test(passw)
+            string = ''
             if policy.test(passw) == []:
                 top.lift()
+
             else:
-                messagebox.showinfo(master=top,title="Error",message= "Password should have atleast these conditions (" + str(policy.test(passw)) + ")")
-                top.destroy()
+                for x in policy.test(passw):
+                    if str(x) == 'Length(8)':
+                        string = string+"Password must contain minimum 8 characters.\n"
+                    if str(x) == 'Special(1)':
+                        string = string+"Password must contain minimum 1 special character.\n"
+                    if str(x) == 'Uppercase(1)':
+                        string = string+"Password must contain minimum 1 uppercase character.\n"
+                    if str(x) == 'Numbers(1)':
+                        string = string+"Password must contain minimum 1 number.\n"
+                    if str(x) == 'NonLetters(1)':
+                        string = string+"Password must contain minimum 1 non letter character.\n"
+                messagebox.showinfo(master=top,title="Error",message= "Password should have atleast these conditions :\n"+string)
                 return
 
             import mysql.connector
