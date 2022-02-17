@@ -57,8 +57,6 @@ class Register:
         check = True
         emailid = self.email.get()
         passw = self.passwor.get()
-        passw = pwd_context.encrypt(passw)
-        print(type(passw))
         if self.isFormEmpty() == True:
             messagebox.showerror(master=top,title="Form Empty",message= "Please enter all details!")
             top.lift()
