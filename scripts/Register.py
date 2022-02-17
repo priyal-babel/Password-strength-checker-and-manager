@@ -72,7 +72,9 @@ class Register:
             if policy.test(passw) == []:
                 top.lift()
             else:
-                messagebox.showinfo(master=top,title="Error",message= "Password should hav atleast these conditions (" + str(policy.test(passw)) + ")")
+                messagebox.showinfo(master=top,title="Error",message= "Password should have atleast these conditions (" + str(policy.test(passw)) + ")")
+                top.destroy()
+                return
             x = 0
             import mysql.connector
             con = mysql.connector.connect(
