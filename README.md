@@ -31,3 +31,35 @@
   </tr>
 </table>
  </div>
+
+ ## Techstack
+
+[![](https://img.shields.io/badge/Made_with-MySQL-blue?style=for-the-badge&logo=opengl)](https://www.mysql.com/ "MySQL")
+[![](https://img.shields.io/badge/Made_with-python-yellow?style=for-the-badge&logo=python)](https://www.python.org/ "Python") 
+ ## About The Project
+
+[![Product Name Screen Shot][product-screenshot]](https://example.com)
+
+This is a password strength checker and manager application. The features implemented are listed below
+
+* Users can register using an email address. If the email is already used and stored in the database, it will trigger an error indicating that. While entering the password, user must abide by the given conditions inorder for the registration to be accepted, if not then the window will trigger an error.
+* The user can the login using the same credential, any incoorect entries will trigger a warning
+
+## To run this project :
+
+Clone the project -
+```
+  $ git clone https://github.com/priyal-babel/Password-strength-checker-and-manager.git
+```
+  
+Run the create_database.sql file in the database folder 
+Install all the requirements -
+```
+ $ pip install tkinter mysql
+```
+Run the Script -
+```
+ $ python base.py
+```
+
+<p align="right">(<a href="#top">back to top</a>)</p>
