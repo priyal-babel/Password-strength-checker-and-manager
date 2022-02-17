@@ -38,8 +38,6 @@
 [![](https://img.shields.io/badge/Made_with-python-yellow?style=for-the-badge&logo=python)](https://www.python.org/ "Python") 
  ## About The Project
 
-![Login and Registration](Password-strength-checker-and-manager\screenshot_of_screen.PNG)
-
 This is a password strength checker and manager application. The features implemented are listed below
 
 * Users can register using an email address. If the email is already used and stored in the database, it will trigger an error indicating that. While entering the password, user must abide by the given conditions inorder for the registration to be accepted, if not then the window will trigger an error.
