@@ -2,6 +2,7 @@ import tkinter as tk
 from tkinter import Tk, Label, messagebox, StringVar, IntVar, Entry, Button, Toplevel, Checkbutton
 import mysql.connector
 from config import password
+from password_strength import PasswordPolicy
 class BLabel(object):
     b = "•"
 
@@ -60,6 +61,18 @@ class Register:
 
         try:
             # Password checker goes here
+            policy = PasswordPolicy.from_names(
+                length=8,  # min length: 8
+                uppercase=1,  # need min. 2 uppercase letters
+                numbers=1,  # need min. 2 digits
+                special=1,  # need min. 2 special characters
+                nonletters=1,  # need min. 2 non-letter characters (digits, specials, anything)
+            )
+            policy.test(passw)
+            if policy.test(passw) == []:
+                top.lift()
+            else:
+                messagebox.showinfo(master=top,title="Error",message= "Password should hav atleast these conditions (" + str(policy.test(passw)) + ")")
             x = 0
             import mysql.connector
             con = mysql.connector.connect(
@@ -88,43 +101,6 @@ class Register:
                 up_count = 0
                 dig_count = 0
                 n = len(passw)
-                if n < 8:
-                    flag1 = 1
-                    messagebox.showerror(master=top,title="Error",message= "The password must be atleast 8 letters!")
-                if n > 15:
-                    flag1 = 1
-                    messagebox.showerror(master=top,title="Error",message= "The password must be atmost 15 letters!")
-                for x in passw:
-                    if x.islower():
-                        low_count = low_count + 1
-                    elif x.isupper():
-                        up_count = up_count + 1
-                    elif x.isdigit():
-                        dig_count = dig_count + 1
-                    else:
-                        for i in characters:
-                            if i == x:
-                                char_count = char_count + 1
-                if dig_count < 1 :
-                    messagebox.showerror(master=top,title="Error",message= "At least 1 number between [0-9]")
-                    top.lift()
-                    return
-                if char_count < 1:
-                    messagebox.showerror(master=top,title="Error",message= "At least 1 character from [$#@]")
-                    top.lift()
-                    return
-                if low_count < 1:
-                    messagebox.showerror(master=top,title="Error",message= "Atleast 1 lowercase letter is mandatory")
-                    top.lift()
-                    return
-                if up_count < 1:
-                    messagebox.showerror(master=top,title="Error",message= "Atleast 1 uppercase letter is mandatory")
-                    
-                if low_count < 1 or up_count < 1 or dig_count < 1 or char_count < 1:
-                    flag1 = 1
-                    for i in error_list:
-                        print(i, end="\n")
-                    print("Registration Unsuccessful")
 
                 if flag1 == 0:
                     sql = 'INSERT INTO users (username, password) VALUES (%s, %s)'
