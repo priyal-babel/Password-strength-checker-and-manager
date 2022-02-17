@@ -61,5 +61,5 @@ Run the Script -
 ```
  $ python base.py
 ```
-<h3 align="center"><b>Developed with :heart: by <a href="https://github.com/priyal-babel">Priyal Babel</a> and <a href="https://github.com/pjayakar">Pinaki Jayakar</a></b></h1>
+<h3 align="center"><b>Developed with :heart: by <a href="https://github.com/priyal-babel">Priyal Babel</a> and <a href="https://github.com/pjayakar">Pinaki Jayakar</a>and <a href="https://github.com/hinalpujara">Hinal Pujara</a></b></h1>
 <p align="right">(<a href="#top">back to top</a>)</p>
