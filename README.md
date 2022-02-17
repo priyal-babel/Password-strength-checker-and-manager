@@ -43,7 +43,7 @@
 This is a password strength checker and manager application. The features implemented are listed below
 
 * Users can register using an email address. If the email is already used and stored in the database, it will trigger an error indicating that. While entering the password, user must abide by the given conditions inorder for the registration to be accepted, if not then the window will trigger an error.
-* The user can the login using the same credential, any incoorect entries will trigger a warning
+* The user can the login using the same credential, any incorrect entries will trigger a warning
 
 ## To run this project :
 
@@ -61,5 +61,5 @@ Run the Script -
 ```
  $ python base.py
 ```
-
+<h3 align="center"><b>Developed with :heart: by <a href="https://github.com/priyal-babel">Priyal Babel</a> and <a href="https://github.com/pjayakar">Pinaki Jayakar</a></b></h1>
 <p align="right">(<a href="#top">back to top</a>)</p>
